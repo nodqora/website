@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nodqora</title>
+<meta name="description" content="A topology and health canvas for event-driven systems. Kubernetes, Kafka and Kafka Connect discovery folded into one graph. Apache-2.0.">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<meta property="og:title" content="Nodqora">
+<meta property="og:description" content="A topology and health canvas for event-driven systems. Kubernetes, Kafka and Kafka Connect discovery folded into one graph. Apache-2.0.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nodqora.com/">
+<meta property="og:image" content="https://nodqora.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img src="/mark.png" alt="" width="44">
+    <h1>Nodqora</h1>
+  </header>
+
+  <nav>
+    <a href="/" aria-current="page">Overview</a>
+    <a href="/editions">Editions</a>
+    <a href="https://github.com/nodqora/nodqora">Source</a>
+  </nav>
+
+  <p class="lede">A topology and health canvas for event-driven systems.</p>
+
+  <p>Four discovery plugins — <code>yaml</code>, <code>kubernetes</code>, <code>kafka</code>,
+  <code>connect</code> — fold into one graph under a configured precedence, three of them also
+  reporting health on their own cadence. You declare the edges nothing can observe; Nodqora
+  observes the rest and joins the two.</p>
+
+  <p>It runs on your own infrastructure, reads only, and is
+  <a href="https://github.com/nodqora/nodqora/blob/main/LICENSE">Apache-2.0</a>.</p>
+
+  <h2>Install</h2>
+
+  <p>Docker with Compose v2, and nothing else — no JDK and no clone.</p>
+
+<pre><code>curl -LO https://github.com/nodqora/nodqora/releases/latest/download/compose.yaml
+mkdir -p config topology
+docker compose up -d</code></pre>
+
+  <p>Then open <code>http://localhost:8080</code>, which will tell you that no environments are
+  configured. That is a working install: the image ships zero environments on purpose, because a
+  baked-in one could be overridden by your config but never removed. Declare one in
+  <code>./config/application.yaml</code> and restart:</p>
+
+<pre><code>nodqora:
+  environments:
+    homelab:
+      display-name: Homelab
+      plugins:
+        kubernetes:
+          namespaces: [n8n, monitoring, actual]</code></pre>
+
+  <p>The full route — upgrades and the backup they require, pointing at a PostgreSQL you already
+  run, what the image bundles, troubleshooting — is in
+  <a href="https://github.com/nodqora/nodqora/blob/main/docs/install.md">docs/install.md</a>.</p>
+
+  <h2>Health is not a ladder</h2>
+
+  <p>Health carries five values, and only three of them are ordered.
+  <code>HEALTHY &lt; DEGRADED &lt; UNHEALTHY</code> is a severity order.
+  <code>UNKNOWN</code> is an abstention and <code>DISABLED</code> is judgement suspended; neither
+  sits anywhere on that scale, and neither is averaged into a parent.</p>
+
+  <p>Alongside health, every plugin reports an <strong>outcome</strong>.
+  <strong>Health says what we found; outcome says how well we looked.</strong> A failed poll leaves
+  the last reading standing and says so, rather than turning a node green or red on evidence nobody
+  gathered.</p>
+
+  <p>The same rule holds at the edges of the map. A node no plugin claimed is grey and labelled as
+  such, not absent. An environment whose plugins are all misconfigured renders the declared topology
+  with banners saying nothing observed it — which is the honesty layer working, not a broken
+  install.</p>
+
+  <h2>The API</h2>
+
+  <p>Three GETs, unversioned, unenveloped, read-only.</p>
+
+<pre><code>GET /api/meta
+GET /api/environments/{envKey}/graph
+GET /api/environments/{envKey}/state</code></pre>
+
+  <p>Nodqora observes; it does not serve traffic. Nothing in your estate stops when Nodqora stops,
+  and nothing it writes reaches your clusters, brokers or connectors.</p>
+
+  <h2>Status</h2>
+
+  <div class="note">
+    <p><strong>v0.1.1 is the first published release.</strong> All five implementation slices are
+    merged: the four plugins, the fold, health end-to-end and the honesty layer. The reference
+    pipeline renders at 10 nodes and 9 edges in production, 7 and 6 in staging, and the build
+    asserts those numbers against the document that specifies them.</p>
+    <p>It is a first release and it is young. No test in the suite reaches a real cluster, broker or
+    Connect worker — every plugin's outbound seam is exercised against a recording — so <em>"the
+    client cannot start"</em> is a class of defect only running against real infrastructure will
+    find. Defects of exactly that kind have been found and fixed by running it against a live
+    pipeline.</p>
+  </div>
+
+  <h2>Editions</h2>
+
+  <p>Nodqora is open core. Everything in the public repository is Apache-2.0 and always will be, and
+  <strong>no capability shipped in Community ever moves to Enterprise</strong>. A proprietary
+  Enterprise edition adds what an organisation needs to run Nodqora across many teams or over time —
+  roles and view scoping, durable topology history, continuous monitoring.</p>
+
+  <p><a href="/editions">What is in each edition, how Enterprise is sold, and what it costs.</a></p>
+
+  <h2>Source</h2>
+
+  <p>Apache-2.0. Source, decisions and issue tracker:
+  <a href="https://github.com/nodqora/nodqora">github.com/nodqora/nodqora</a>. Every design decision
+  is an ADR in the repository, and the domain model they describe is in
+  <a href="https://github.com/nodqora/nodqora/blob/main/CONTEXT.md">CONTEXT.md</a>.</p>
+
+  <p>Contributions take a DCO sign-off and there is no CLA.</p>
+
+  <h2>Support</h2>
+
+  <p>For the Apache-2.0 edition, <strong>open an issue</strong>. That is the whole channel: support
+  is public, so there is no support email and no private channel, and every answer is where the next
+  person will find it. Nothing is promised about how fast — in practice every issue gets read.</p>
+
+  <p>Support for the paid edition, and the response commitment that comes with it, are on the
+  <a href="/editions">editions page</a>.</p>
+
+  <footer>
+    <p>Bug reports and questions:
+    <a href="https://github.com/nodqora/nodqora/issues">the issue tracker</a> ·
+    Enterprise, trials and anything else: <a href="mailto:hello@nodqora.com">hello@nodqora.com</a></p>
+    <p>Nodqora is made by Fyodor Skorozhenko, an individual developer.</p>
+  </footer>
+
+</div>
+</body>
+</html>

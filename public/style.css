@@ -1,0 +1,106 @@
+/* One stylesheet for both pages. Served from 'self', so the CSP needs no 'unsafe-inline'. */
+
+:root {
+  --bg: #ffffff;
+  --surface: #f4f7fa;
+  --border: #dfe5ec;
+  --text: #101a26;
+  --muted: #5b6b7d;
+  --accent: #0f62d6;
+  --accent-soft: #e8f0fe;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* The navy the brand lockup is drawn on, opened up enough to read body text against. */
+    --bg: #071322;
+    --surface: #0e1e31;
+    --border: #1c3149;
+    --text: #e4ecf5;
+    --muted: #93a4b8;
+    --accent: #56a8ff;
+    --accent-soft: #10263e;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 0 20px;
+}
+
+.wrap { max-width: 760px; margin: 0 auto; padding: 56px 0 80px; }
+
+header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+header img { display: block; width: 44px; height: auto; flex: none; }
+header h1 { font-size: 27px; letter-spacing: -0.01em; margin: 0; font-weight: 650; }
+header .home { border: 0; color: inherit; display: flex; align-items: center; gap: 14px; }
+
+nav { margin: 0 0 40px; font-size: 15px; color: var(--muted); }
+nav a { margin-right: 18px; }
+nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--muted); }
+
+.lede { font-size: 23px; line-height: 1.45; letter-spacing: -0.01em; margin: 0 0 20px; font-weight: 600; }
+p { margin: 0 0 18px; }
+
+h2 {
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted); margin: 44px 0 14px; font-weight: 600;
+}
+h3 { font-size: 18px; margin: 30px 0 10px; font-weight: 640; }
+
+ul { margin: 0 0 18px; padding-left: 22px; }
+li { margin-bottom: 10px; }
+li strong { font-weight: 620; }
+
+a {
+  color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+a:hover { border-bottom-color: var(--accent); }
+
+code {
+  font-family: var(--mono); font-size: 0.88em; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 5px; padding: 1px 5px;
+}
+
+pre {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 14px 16px; overflow-x: auto; margin: 0 0 18px;
+}
+pre code { background: none; border: 0; padding: 0; font-size: 14px; line-height: 1.6; }
+
+.note {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px; padding: 16px 18px; margin: 0 0 18px;
+}
+.note p:last-child { margin-bottom: 0; }
+
+/* Tables carry the editions ledger. They scroll inside themselves rather than
+   widening the page, because two of them have a long right-hand column. */
+.table-scroll { overflow-x: auto; margin: 0 0 18px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--border); }
+th { font-weight: 620; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; }
+td:last-child, th:last-child { padding-right: 0; }
+
+footer {
+  margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 15px;
+}
+footer p { margin: 0 0 8px; }
+
+@media (max-width: 560px) {
+  .wrap { padding: 36px 0 56px; }
+  .lede { font-size: 20px; }
+  body { font-size: 16px; }
+  header img { width: 38px; }
+  header h1 { font-size: 24px; }
+}

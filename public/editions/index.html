@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editions — Nodqora</title>
+<meta name="description" content="What is in the Community and Enterprise editions of Nodqora, how Enterprise is sold, the trial, and the support commitment.">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<meta property="og:title" content="Editions — Nodqora">
+<meta property="og:description" content="What is in the Community and Enterprise editions of Nodqora, how Enterprise is sold, the trial, and the support commitment.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nodqora.com/editions">
+<meta property="og:image" content="https://nodqora.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a class="home" href="/">
+      <img src="/mark.png" alt="" width="44">
+      <h1>Nodqora</h1>
+    </a>
+  </header>
+
+  <nav>
+    <a href="/">Overview</a>
+    <a href="/editions" aria-current="page">Editions</a>
+    <a href="https://github.com/nodqora/nodqora">Source</a>
+  </nav>
+
+  <p class="lede">Two editions, and one promise about the line between them.</p>
+
+  <p><strong>Community</strong> is the public repository, Apache-2.0.
+  <strong>Enterprise</strong> is a separate proprietary distribution; the public repository never
+  contains proprietary files.</p>
+
+  <div class="note">
+    <p><strong>No capability shipped in Community ever moves to Enterprise.</strong> Every Community
+    row below is a commitment, not a placement. Capabilities may move the other way — Enterprise to
+    Community — and the revisit triggers behind this page operate only in that direction.</p>
+    <p>The Community edition stays Apache-2.0 and self-hostable. That closes the manoeuvre where a
+    vendor never demotes a feature but withdraws the free way to run it.</p>
+  </div>
+
+  <h2>How the line is drawn</h2>
+
+  <p>Placements are made by two rules applied in order, and by nothing else.</p>
+
+  <ul>
+    <li><strong>The split is buyer-based.</strong> What one engineer or team needs to see the truth
+    of their system is Community. What an organisation needs to run it across many teams or over
+    time is Enterprise.</li>
+    <li><strong>The query is free; the standing query is paid.</strong> Any question a user asks of
+    the graph in front of them is observation, and observation is Community. The same question
+    evaluated on a schedule, watched for change and reported when it changes, is continuous
+    monitoring, and that is Enterprise.</li>
+  </ul>
+
+  <p>Anything not listed is Community by default, except four categories that are Enterprise by
+  standing rule: state flowing <em>outward</em> to source systems; approval and request workflow;
+  continuous monitoring and alerting; and rollups aggregating more than one Nodqora install.</p>
+
+  <h2>Community</h2>
+
+  <p>Everything an engineer needs to see the truth of their system.</p>
+
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Capability</th><th>Why it is free</th></tr></thead>
+    <tbody>
+      <tr><td>Interactive canvas, node inspector, search, filters, deep links</td><td>Seeing the truth of your system</td></tr>
+      <tr><td>YAML topology and environments</td><td>As above</td></tr>
+      <tr><td>Health, freshness and plugin outcome</td><td>As above</td></tr>
+      <tr><td><strong>Every discovery plugin</strong> — Kubernetes, Kafka, Connect, and every tier beyond them, cloud providers and commercial APM included</td><td>Technology is an accident of stack, not a property of the buyer. No plugin is Enterprise</td></tr>
+      <tr><td>Automatic relationship discovery</td><td>Reduces map maintenance for the team that owns the map</td></tr>
+      <tr><td><strong>Upstream, downstream, shortest path, all paths, dependency depth</strong></td><td>Traversal is observation</td></tr>
+      <tr><td><strong>Blast radius and critical dependencies</strong></td><td>Observation of a graph you already own</td></tr>
+      <tr><td><strong>Drift against the previous fold</strong> — what appeared, vanished or changed health since the last refresh</td><td>The fold already recomputes wholesale; no storage that grows</td></tr>
+      <tr><td>One-shot comparison between environments in the same install</td><td>A single-team debugging question</td></tr>
+      <tr><td><strong>Incident view</strong> — filter to unhealthy, related alerts, walk the impact</td><td>Composed of parts already free. An incident is the worst moment to meet a paywall</td></tr>
+      <tr><td><strong>Authentication</strong> — OIDC and SAML against your own identity provider</td><td>No comparable product gates SSO</td></tr>
+      <tr><td><strong>Audit capture</strong> — complete structured events to stdout, file or Kafka</td><td>You already own the disk</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>A Community install is a <strong>shared view</strong>: everyone who authenticates sees every
+  environment in it. Isolation is achieved by running separate installs, which costs a deployment
+  rather than a licence.</p>
+
+  <h2>Enterprise</h2>
+
+  <p>What an organisation needs to run Nodqora across many teams, or over time.</p>
+
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Capability</th><th>Why it is paid</th></tr></thead>
+    <tbody>
+      <tr><td><strong>View scoping and roles</strong> — per-environment, per-type, per-owner, per-team visibility in one install</td><td>The API is read-only, so authorization here <em>is</em> view scoping, and that is organizational</td></tr>
+      <tr><td><strong>Group synchronisation</strong> — mapping identity-provider groups onto roles</td><td>Identity as an administration problem</td></tr>
+      <tr><td><strong>The journal</strong> — durable topology history, time travel, deployment and configuration history</td><td>Storage the product otherwise does not keep</td></tr>
+      <tr><td><strong>Incident timeline</strong> and change correlation</td><td>The journal by another name</td></tr>
+      <tr><td><strong>Continuous monitoring</strong> — blast-radius alerting, environment drift detection, standing analysis</td><td>The standing query</td></tr>
+      <tr><td><strong>Audit aggregation</strong> — search, retention policy, export, cross-install collection</td><td>Fleet collection</td></tr>
+      <tr><td><strong>Policy engine</strong> — enforcing conventions such as "every service has an owner"</td><td>Governance <em>and</em> a standing query; both rules agree</td></tr>
+      <tr><td><strong>AI assistant</strong> — architecture explanation, likely-failure identification, incident summarisation</td><td>Placed by the rule that the product must be useful without AI, not by the buyer rule</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Two of those describe capabilities that <strong>do not exist yet on either side</strong>. Group
+  synchronisation is worth nothing until roles exist, and audit aggregation is thin while every
+  authenticated user sees everything. Neither is being sold today.</p>
+
+  <h2>How Enterprise is sold</h2>
+
+  <p><strong>A flat annual subscription per installation.</strong> The unit is a deployment of
+  Nodqora, and <strong>nothing Nodqora observes is ever counted</strong>. There is exactly one
+  countable object and it is the thing you deploy, not the estate you own.</p>
+
+  <div class="table-scroll">
+  <table>
+    <tbody>
+      <tr><td>Replicas of one deployment</td><td><strong>One installation.</strong> Scale out freely</td></tr>
+      <tr><td>Non-production copies — sandbox, upgrade rehearsal, config testing</td><td><strong>Free and unlimited</strong></td></tr>
+      <tr><td>A DR standby</td><td><strong>Free while passive</strong>; an installation once it serves users</td></tr>
+      <tr><td>Environments inside one install</td><td><strong>Unlimited and free</strong>, on both editions</td></tr>
+      <tr><td>Discovered nodes, edges, plugins, connected systems</td><td><strong>Unlimited and free</strong>, on both editions</td></tr>
+      <tr><td>Users who sign in</td><td><strong>Unlimited and free</strong>, on both editions</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>You receive <strong>one key per installation</strong>, carrying a name you choose —
+  <code>eu-prod</code>, <code>acme-gov-enclave</code>. Nothing fingerprints your hardware or your
+  cluster. The key verifies offline and never contacts us; an air-gapped install stays
+  air-gapped.</p>
+
+  <p><strong>If a subscription lapses, nothing stops working.</strong> The install boots, the canvas
+  renders, health refreshes, the journal keeps writing, and every view scope already configured
+  stays enforced. What freezes is the control path — new roles, scopes, monitoring rules, policies
+  and retention changes — after a thirty-day grace period past expiry. The key is a renewal prompt,
+  not a lock, and it is sold as one.</p>
+
+  <h3>The trial</h3>
+
+  <p><strong>Thirty days, full-featured, arranged through us.</strong> Extended by reissuing a key if
+  a security review or procurement runs long — ask.</p>
+
+  <p>It is not self-serve, for a structural reason worth stating plainly: Enterprise is a private
+  artifact, and possession of that artifact is what gates capability. A self-serve download would be
+  a decision to publish the proprietary build to anyone who fills in a form.</p>
+
+  <h3>The price</h3>
+
+  <p><strong>Contact us.</strong> No list price is published yet, because there is not yet enough
+  selling behind it for a published number to be anything but a guess — and a published guess is an
+  anchor we would own permanently.</p>
+
+  <p>We have committed to publishing a list price once <strong>five Enterprise deals have closed, or
+  twelve months of active selling have passed</strong>, whichever comes first. The <em>unit</em> and
+  the <em>trial terms</em> are published above, so you can tell what you would be charged for
+  without a call.</p>
+
+  <p><strong>There is no free Enterprise tier, at any threshold.</strong> Community is the answer for
+  a small organisation, and it is a complete one.</p>
+
+  <h2>Support</h2>
+
+  <p><strong>Support is bundled into the Enterprise subscription.</strong> There is no separate
+  support product, no tier ladder and no add-on. It runs with an active term — trials included — and
+  ends at expiry.</p>
+
+  <h3>What Enterprise gets</h3>
+
+  <p><strong>One business day to first response, Monday to Friday, UTC+4.</strong></p>
+
+  <p>That is the whole commitment. There is no restoration or resolution commitment, no severity
+  ladder and nothing 24x7 — because there is one maintainer, and a commitment that cannot be kept on
+  a bad week is not worth publishing. The timezone is stated rather than hidden behind "business
+  hours" so you can convert it before you buy: from US Pacific, expect an answer overnight.</p>
+
+  <p>Two things bound what an outage costs you. <strong>Nodqora observes; it does not serve
+  traffic</strong> — nothing in your estate stops when Nodqora stops. And a lapsed key does not
+  cause one.</p>
+
+  <div class="table-scroll">
+  <table>
+    <tbody>
+      <tr><td><strong>Covered</strong></td><td>Nodqora and its four first-party plugins — <code>yaml</code>, <code>kubernetes</code>, <code>kafka</code>, <code>connect</code></td></tr>
+      <tr><td><strong>Included</strong></td><td>Diagnosing which side of the line a problem falls on, including when the cause turns out to be your cluster</td></tr>
+      <tr><td><strong>Not covered</strong></td><td>Remediating your own infrastructure, credentials or network; third-party and private plugins</td></tr>
+      <tr><td><strong>Versions</strong></td><td>The latest release only. No LTS, no backports</td></tr>
+      <tr><td><strong>Indemnification</strong></td><td>None, in either edition</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><strong>Diagnosis is included even where the fix is yours.</strong> A plugin showing blind is
+  usually RBAC, a network policy or a credential — and finding out which is work we do before we can
+  tell you, so we commit to doing it. What we do not do is reach into your cluster and change
+  it.</p>
+
+  <p><strong>Licence, key reissue and renewal questions are answered for anyone, at any time</strong>,
+  in or out of term. A frozen control path you want unfrozen is not a support ticket.</p>
+
+  <h3>What Community gets</h3>
+
+  <p><strong>Public issues on the repository. No response commitment, and no private channel.</strong>
+  Every question and every answer is in public, where the next person finds it — which is the only
+  shape one maintainer can serve, and the only one where an answer is worth more than once.</p>
+
+  <p>Nothing is promised about how fast a Community issue is answered, and that is deliberate rather
+  than evasive: in practice every one gets read, and promising that would turn a habit into a
+  term.</p>
+
+  <p>A paid support agreement against Community is possible and is not a tier. It has no published
+  price and no threshold. If you want assurance and no Enterprise capability, ask.</p>
+
+  <h2>What this page is</h2>
+
+  <div class="note">
+    <p><strong>Provisional, in one direction.</strong> Every placement above can be reopened, but
+    reopening only ever moves a capability <em>toward</em> Community. The reasoning behind each one,
+    the evidence that would reopen it, and what the model costs us are recorded in full in
+    <a href="https://github.com/nodqora/nodqora/blob/main/docs/editions.md">docs/editions.md</a> and
+    the ADRs it cites.</p>
+  </div>
+
+  <footer>
+    <p>Enterprise, trials, pricing and licence questions:
+    <a href="mailto:hello@nodqora.com">hello@nodqora.com</a> ·
+    Community support: <a href="https://github.com/nodqora/nodqora/issues">the issue tracker</a></p>
+    <p>Nodqora is made by Fyodor Skorozhenko, an individual developer.</p>
+  </footer>
+
+</div>
+</body>
+</html>
