@@ -33,6 +33,24 @@ Both pages are **derived surfaces**, and nothing is decided here:
   the five-deals-or-twelve-months trigger for publishing a price. Change one here and it disagrees
   with the ADR that owns it, which is the failure mode a condensation exists to risk.
 
+## One edition exists
+
+`docs/editions.md` carries a **Roadmap** column — `§49 phase 8`, `§49 phase 12` and so on — and that
+column is the only thing marking most of the ledger as unbuilt. A condensation that drops it turns a
+roadmap into a feature list, on both sides of the line: traversal, blast radius, drift,
+authentication and audit capture are all Community and none of them is shipped, and no part of
+Enterprise exists at all.
+
+So both pages state it outright: **there is one edition today, Community, and nothing is for sale.**
+The Community table carries a *Today* column reading `Shipped` or `Planned`, the Enterprise section
+says none of it is built, and the selling terms are written as what a paid edition *would* be sold
+on rather than what it costs.
+
+Keep that shape. A row moves from `Planned` to `Shipped` when it ships, and the paragraphs about
+price, trial and support move to the present tense when there is an Enterprise build to attach them
+to — not before. This is the failure mode a condensation exists to risk, and it is why the roadmap
+status is load-bearing here rather than decoration.
+
 The status note on the overview is the one part specific to this site. It says v0.1.1 is the first
 published release and that no test in the suite reaches real infrastructure. Both are true today and
 both have to stay true for the note to stand. **Rewrite it when either changes; do not delete it.**
