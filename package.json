@@ -1,0 +1,14 @@
+{
+  "name": "nodqora-website",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The nodqora.com vendor site — a static page served by a Cloudflare Worker",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "wrangler": "4.131.0"
+  }
+}

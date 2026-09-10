@@ -77,14 +77,37 @@ A Cloudflare Worker serving static assets — the successor to Pages, and where 
 script, so the files are served as-is.
 
 - Build command: none.
-- Deploy command: `npx wrangler deploy`.
+- Deploy command: `npm run deploy`.
 - Pushing to `main` redeploys.
 
-`_headers` is honoured by Workers static assets, same as it was under Pages.
+```bash
+npm ci             # wrangler is pinned to an exact version in package-lock.json
+npm run dev        # local preview at http://localhost:8787
+npm run check      # dry run: reads the assets, builds nothing, deploys nothing
+npm run deploy
+```
 
-To read it locally, serve `public/` over HTTP rather than opening the file directly — the page links
-to `/style.css` by absolute path:
+Wrangler is a dev dependency pinned to an **exact** version rather than a caret range, because this
+repo has no tests: a wrangler that changes how `_headers` or HTML handling behaves would ship the
+change to production unnoticed. Upgrade deliberately, and check the headers afterwards.
+
+`_headers` is honoured by Workers static assets, same as it was under Pages. **Use `npm run dev`
+rather than a plain static file server** — `wrangler dev` runs the same asset worker as production,
+so it applies `_headers` and the `auto-trailing-slash` HTML handling. A `python3 -m http.server`
+does neither, which is how a broken CSP reaches the internet.
+
+Both `nodqora.com` and `www.nodqora.com` are bound in `wrangler.jsonc`. Declaring `routes` disables
+the `workers.dev` URL by default — that is Cloudflare's behaviour, not a misconfiguration. Set
+`"workers_dev": true` if a staging URL is wanted back, and know that it serves the same content on a
+third hostname.
+
+## Verifying a deploy
+
+The headers are the part with no test behind them, so check them after any wrangler upgrade or
+`_headers` edit:
 
 ```bash
-python3 -m http.server 8000 --directory public
+curl -sSI https://nodqora.com/ | grep -iE "content-security-policy|strict-transport"
 ```
+
+All five headers should be present. An empty result means `_headers` is not being applied.
