@@ -96,10 +96,16 @@ rather than a plain static file server** — `wrangler dev` runs the same asset 
 so it applies `_headers` and the `auto-trailing-slash` HTML handling. A `python3 -m http.server`
 does neither, which is how a broken CSP reaches the internet.
 
-Both `nodqora.com` and `www.nodqora.com` are bound in `wrangler.jsonc`. Declaring `routes` disables
-the `workers.dev` URL by default — that is Cloudflare's behaviour, not a misconfiguration. Set
-`"workers_dev": true` if a staging URL is wanted back, and know that it serves the same content on a
-third hostname.
+**`nodqora.com` is the only hostname.** `www` is not bound and does not resolve, which is a choice
+rather than an omission: binding it produced an AAAA record with no matching A, so it worked over
+IPv6 and failed for every IPv4-only client. A hostname that fails depending on who is asking is
+worse than one that does not exist. If it is ever wanted back, add the route *and* check that both
+record types were created before believing the deploy output — wrangler reported the custom domain
+as attached in both cases.
+
+Declaring `routes` disables the `workers.dev` URL by default — Cloudflare's behaviour, not a
+misconfiguration. Set `"workers_dev": true` if a staging URL is wanted back, and know that it then
+serves the same content on a second hostname.
 
 ## Verifying a deploy
 
