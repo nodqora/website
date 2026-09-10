@@ -6,5 +6,16 @@
   "compatibility_date": "2026-09-09",
   "assets": {
     "directory": "./public"
-  }
+  },
+  // Both hostnames are bound here rather than clicked into the dashboard, so the domain binding is
+  // reviewable and survives a rebuild of the account. Cloudflare creates the DNS records and issues
+  // the certificate itself; there is nothing to add in the DNS tab.
+  //
+  // www serves the same page rather than redirecting to the apex, which would need a Redirect Rule
+  // that lives in the dashboard and not in this file. The duplicate is resolved instead by the
+  // rel="canonical" in index.html, which names the apex.
+  "routes": [
+    { "pattern": "nodqora.com", "custom_domain": true },
+    { "pattern": "www.nodqora.com", "custom_domain": true }
+  ]
 }
