@@ -78,7 +78,30 @@ script, so the files are served as-is.
 
 - Build command: none.
 - Deploy command: `npm run deploy`.
-- Pushing to `main` redeploys.
+- **Pushing to `main` redeploys**, via Cloudflare Workers Builds.
+
+## Push-to-deploy
+
+`main` is connected to Workers Builds, so a push deploys. There is no API token anywhere: the
+connection is a GitHub App installed on the `nodqora` org and scoped to this repository, which is
+why this route was chosen over a GitHub Actions workflow — nothing long-lived to leak or rotate.
+
+The deploy command is **`npm run deploy`, not `npx wrangler deploy`**. The npm script runs the
+wrangler pinned in `package-lock.json`; `npx` would re-resolve to whatever is newest at build time,
+which is the floating-version problem the pin exists to prevent. Cloudflare detects the lockfile and
+runs the install itself, so there is no build command.
+
+**Two paths now reach production** — a push to `main`, and `npm run deploy` from a laptop. They can
+disagree: deploying locally from a dirty tree puts something live that is in no commit, and the next
+push silently replaces it. Prefer pushing. Keep the local deploy for the case where CI itself is
+what is broken.
+
+To confirm a deploy landed rather than trusting a green build:
+
+```bash
+npx wrangler deployments list   # the newest version ID must have changed
+curl -sSI https://nodqora.com/ | grep -i content-security-policy
+```
 
 ```bash
 npm ci             # wrangler is pinned to an exact version in package-lock.json
