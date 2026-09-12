@@ -104,3 +104,12 @@ footer p { margin: 0 0 8px; }
   header img { width: 38px; }
   header h1 { font-size: 24px; }
 }
+
+/* The canvas screenshot. Full bleed to the text column, because the graph is width-hungry and
+   height-light (the product's own layout constraint) and loses its shape at anything narrower. */
+.shot { margin: 26px 0 30px; }
+.shot img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--border); border-radius: 8px;
+}
+.shot figcaption { margin-top: 9px; color: var(--muted); font-size: 15px; line-height: 1.5; }
