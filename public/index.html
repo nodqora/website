@@ -89,7 +89,9 @@ kubectl config view --minify --flatten &gt; kubeconfig
       - ./kubeconfig:/etc/nodqora/kubeconfig:ro
 
 # 3. config/application.yaml, beside namespaces:
-          kubeconfig: "${file:/etc/nodqora/kubeconfig}"
+          kubeconfig: '\${file:/etc/nodqora/kubeconfig}'
+#    The backslash and single quotes are required: without them Spring expands the
+#    reference itself and the plugin receives the path, not the file (nodqora#111).
 
 docker compose up -d   # not restart: a new mount needs a new container</code></pre>
 
