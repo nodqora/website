@@ -74,6 +74,30 @@ docker compose up -d</code></pre>
         kubernetes:
           namespaces: [n8n, monitoring, actual]</code></pre>
 
+  <p>The container cannot see <code>~/.kube/config</code>, so <code>kubectl</code> and k9s working
+  on the same machine do not mean Nodqora can list anything. Unless Nodqora runs inside the cluster
+  it observes, every namespace fails with <code>Operation: [list] for kind: [Deployment] …
+  failed</code> until it has a kubeconfig of its own. That is three changes and a recreate:</p>
+
+<pre><code># 1. A self-contained kubeconfig beside compose.yaml (--flatten inlines the certificates)
+kubectl config view --minify --flatten &gt; kubeconfig
+#    then edit its server: line. 127.0.0.1 inside the container is the container, so use
+#    the cluster's LAN address, e.g. https://192.168.1.50:6443, or
+#    https://host.docker.internal:6443 for a cluster on this machine under Docker Desktop.
+
+# 2. compose.yaml, under the nodqora service's volumes:
+      - ./kubeconfig:/etc/nodqora/kubeconfig:ro
+
+# 3. config/application.yaml, beside namespaces:
+          kubeconfig: "${file:/etc/nodqora/kubeconfig}"
+
+docker compose up -d   # not restart: a new mount needs a new container</code></pre>
+
+  <p>The address must also be one the API server's certificate names — k3s covers the node's own
+  addresses and takes <code>--tls-san</code> for any other. The file is a credential; it stays out
+  of any repository. Details are in
+  <a href="https://github.com/nodqora/nodqora/blob/main/docs/install.md#kubernetes-needs-a-kubeconfig-in-the-container">install.md</a>.</p>
+
   <p>The full route — upgrades and the backup they require, pointing at a PostgreSQL you already
   run, what the image bundles, troubleshooting — is in
   <a href="https://github.com/nodqora/nodqora/blob/main/docs/install.md">docs/install.md</a>.</p>
