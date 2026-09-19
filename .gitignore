@@ -1,4 +1,10 @@
 .DS_Store
 node_modules/
 .wrangler/
-!.wrangler/cache/wrangler-account.json
+
+# Nothing here has a secret today: Workers Builds deploys through the GitHub App and there is no
+# Worker script to bind one to. These are named so that the day one exists it is not committed.
+.env
+.env.*
+.dev.vars
+.dev.vars.*
