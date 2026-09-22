@@ -61,18 +61,31 @@
 mkdir -p config topology
 docker compose up -d</code></pre>
 
-  <p>Then open <code>http://localhost:8080</code>, which will tell you that no environments are
-  configured. That is a working install: the image ships zero environments on purpose, because a
-  baked-in one could be overridden by your config but never removed. Declare one in
-  <code>./config/application.yaml</code> and restart:</p>
+  <p>Then open <code>http://localhost:8080</code>, which will tell you that no identity provider is
+  configured. That is a working install serving nothing: until <code>nodqora.authentication</code>
+  is declared, the API answers every request with a 401. The image also ships zero environments on
+  purpose, because a baked-in one could be overridden by your config but never removed. Both are
+  declared in <code>./config/application.yaml</code>, and then a restart:</p>
 
 <pre><code>nodqora:
+  authentication:
+    oidc:
+      base-url: http://localhost:8080
+      issuer: https://idp.example.com/realms/acme
+      client-id: nodqora
   environments:
     homelab:
       display-name: Homelab
       plugins:
         kubernetes:
           namespaces: [n8n, monitoring, actual]</code></pre>
+
+  <p><strong>Nodqora signs people in with OIDC against your own identity provider</strong> — anything
+  that publishes a discovery document — and holds no accounts of its own. Everyone who signs in sees
+  every environment in the install; there are no roles to assign. An install that nobody else can
+  reach says <code>authentication: none</code> instead, which is how every release before 0.3.0
+  behaved. What each line means, what the provider has to be told, and where a client secret goes are
+  in <a href="https://github.com/nodqora/nodqora/blob/main/docs/install.md#signing-in">install.md</a>.</p>
 
   <p>The container cannot see <code>~/.kube/config</code>, so <code>kubectl</code> and k9s working
   on the same machine do not mean Nodqora can list anything. Unless Nodqora runs inside the cluster
@@ -151,7 +164,7 @@ nodes:
 
   <h2>The API</h2>
 
-  <p>Three GETs, unversioned, unenveloped, read-only.</p>
+  <p>Three GETs, unversioned, unenveloped, read-only, and behind the same sign-in as the canvas.</p>
 
 <pre><code>GET /api/meta
 GET /api/environments/{envKey}/graph
@@ -163,11 +176,17 @@ GET /api/environments/{envKey}/state</code></pre>
   <h2>Status</h2>
 
   <div class="note">
-    <p><strong>v0.1.3 is the current release.</strong> All five implementation slices are
+    <p><strong>v0.3.0 is the current release.</strong> All five implementation slices are
     merged: the four plugins, the fold, health end-to-end and the honesty layer. The reference
     pipeline renders at 10 nodes and 9 edges in production, 7 and 6 in staging, and the build
     asserts those numbers against the document that specifies them.</p>
-    <p>It is a first release and it is young. No test in the suite reaches a real cluster, broker or
+    <p>Two releases have followed the first. <strong>0.2.0</strong> added a fifth plugin, Prometheus,
+    which carries a series onto a node as a figure and never votes on its health. <strong>0.3.0</strong>
+    added sign-in: OIDC against your own identity provider, sessions in Postgres, and an API that
+    answers an unauthenticated request with a 401. Upgrading to it needs one new key in
+    <code>application.yaml</code> — the
+    <a href="https://github.com/nodqora/nodqora/releases/tag/v0.3.0">release notes</a> say which.</p>
+    <p>It is young. No test in the suite reaches a real cluster, broker or
     Connect worker — every plugin's outbound seam is exercised against a recording — so <em>"the
     client cannot start"</em> is a class of defect only running against real infrastructure will
     find. Defects of exactly that kind have been found and fixed by running it against a live
